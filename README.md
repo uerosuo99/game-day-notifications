@@ -55,15 +55,25 @@ pip install -r requirements.txt
 
 
 ### **Create an SNS Topic**
-Go to the SNS service in the AWS Management Console.
-Create a new topic (Standard type) and note the ARN.
+1. Open the AWS Management Console.
+2. Navigate to the SNS service.
+3. Click Create Topic and select Standard as the topic type.
+4. Name the topic (e.g., NBA_Game_Alerts) and note the ARN.
+5. Click Create Topic.
 
-Create an IAM Role for Lambda
-Attach the the Lambda execution role:
 
-SNS Publish Policy (sns_publish_policy.json)
-EventBridge Invoke Policy (eventbridge_invoke_policy.json)
-Lambda Execution Policy (lambda_execution_policy.json)
+### **reate an IAM Role for Lambda**
+1. Open the IAM service in the AWS Management Console.
+2. Click Roles → Create Role.
+3. Select AWS Service and choose Lambda.
+4. Attach the following policies:
+- SNS Publish Policy (sns_publish_policy.json)
+- EventBridge Invoke Policy (eventbridge_invoke_policy.json)
+- Lambda Execution Policy (lambda_execution_policy.json)SNS Publish Policy, EventBridge Invoke Policy, Lambda Execution Policy
+5. Name the role (e.g., NBA_Lambda_Role) and create it.
+6. Copy and Save the ARN of the role.
+
+
 
 
 ### **Deploy the Lambda Function**
