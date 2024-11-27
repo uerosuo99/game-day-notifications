@@ -27,7 +27,7 @@ This project is an alert system that sends real-time NBA game day score notifica
 ---
 
 ## **Project Structure**
-```plaintext
+
 game-day-notifications/
 ├── src/
 │   ├── lambda_function.py      # Main Lambda function code
