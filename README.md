@@ -67,13 +67,11 @@ pip install -r requirements.txt
 2. Click Roles → Create Role.
 3. Select AWS Service and choose Lambda.
 4. Attach the following policies:
-- SNS Publish Policy (sns_publish_policy.json)
-- EventBridge Invoke Policy (eventbridge_invoke_policy.json)
-- Lambda Execution Policy (lambda_execution_policy.json)SNS Publish Policy, EventBridge Invoke Policy, Lambda Execution Policy
+  - SNS Publish Policy (sns_publish_policy.json)
+  - EventBridge Invoke Policy (eventbridge_invoke_policy.json)
+  - Lambda Execution Policy (lambda_execution_policy.json)SNS Publish Policy, EventBridge Invoke Policy, Lambda Execution Policy
 5. Name the role (e.g., NBA_Lambda_Role) and create it.
 6. Copy and Save the ARN of the role.
-
-
 
 
 ### **Deploy the Lambda Function**
