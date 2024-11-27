@@ -58,7 +58,7 @@ pip install -r requirements.txt
 1. Open the AWS Management Console.
 2. Navigate to the SNS service.
 3. Click Create Topic and select Standard as the topic type.
-4. Name the topic (e.g., NBA_Game_Alerts) and note the ARN.
+4. Name the topic (e.g., game_day_not_topic) and note the ARN.
 5. Click Create Topic.
 
 
@@ -70,7 +70,7 @@ pip install -r requirements.txt
   - SNS Publish Policy (sns_publish_policy.json)
   - EventBridge Invoke Policy (eventbridge_invoke_policy.json)
   - Lambda Execution Policy (lambda_execution_policy.json)SNS Publish Policy, EventBridge Invoke Policy, Lambda Execution Policy
-5. Name the role (e.g., NBA_Lambda_Role) and create it.
+5. Name the role (e.g., game_day_not_role) and create it.
 6. Copy and Save the ARN of the role.
 
 
@@ -78,11 +78,11 @@ pip install -r requirements.txt
 1. Open the AWS Management Console and navigate to the Lambda service.
 2. Click Create Function.
 3. Select Author from Scratch.
-4. Enter a function name (e.g., NBA_Score_Notifier).
+4. Enter a function name (e.g., game_day_notifier).
 5. Choose Python 3.x as the runtime.
-6. Assign the IAM role created earlier (NBA_Lambda_Role) to the function.
+6. Assign the IAM role created earlier (game_day_not_role) to the function.
 7. Under the Function Code section:
-- Copy the content of the src/lambda_function.py file from the repository.
+- Copy the content of the src/game_day_notifier.py file from the repository.
 - Paste it into the inline code editor.
 8. Under the Environment Variables section, add the following:
 - NBA_API_KEY: your NBA API key.
@@ -91,26 +91,28 @@ pip install -r requirements.txt
 
 
 ### **Set Up Automation with Eventbridge**
-Navigate to EventBridge → Rules → Create Rule.
-Choose Event Source: Schedule.
-Set the cron schedule for when you want updates (e.g., hourly).
-Add the Lambda function as the target and save the rule.
+1. Navigate to the CloudWatch service in the AWS Management Console.
+2. Go to Rules → Create Rule.
+3. Select Event Source: Schedule.
+4. Set the cron schedule for when you want updates (e.g., hourly).
+5. Under Targets, select the Lambda function (game_day_notifier) and save the rule.
 
 
 ### **Test the System**
-Use test events in the Lambda console to simulate execution.
-Check the SNS subscriptions to verify SMS/Email notifications.
-Debug any errors using CloudWatch Logs.
+1. Open the Lambda function in the AWS Management Console.
+2. Create a test event to simulate execution.
+3. Run the function and check CloudWatch Logs for errors.
+4. Verify that SMS notifications are sent to the subscribed users.
 
 
 ### **What I Learned**
-Designing a notification system with AWS SNS and Lambda.
-Securing AWS services with least privilege IAM policies.
-Automating workflows using EventBridge.
-Integrating external APIs into cloud-based workflows.
+1. Designing a notification system with AWS SNS and Lambda.
+2. Securing AWS services with least privilege IAM policies.
+3. Automating workflows using EventBridge.
+4. Integrating external APIs into cloud-based workflows.
 
 
 ### **Future Enhancements**
-Add NFL score alerts for extended functionality.
-Store user preferences (teams, game types) in DynamoDB for personalized alerts.
-Implement a web UI
+1. Add NFL score alerts for extended functionality.
+2. Store user preferences (teams, game types) in DynamoDB for personalized alerts.
+3. Implement a web UI
