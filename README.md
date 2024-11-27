@@ -30,14 +30,14 @@ This project is an alert system that sends real-time NBA game day score notifica
 ```bash
 game-day-notifications/
 ├── src/
-│   ├── lambda_function.py               # Main Lambda function code
+│   ├── gd_notifications.py          # Main Lambda function code
 ├── policies/
-│   ├── sns_publish_policy.json          # SNS publishing permissions
-│   ├── eventbridge_invoke_policy.json   # EventBridge to Lambda permissions
-│   └── lambda_execution_policy.json     # Lambda execution role permissions
+│   ├── gb_sns_policy.json           # SNS publishing permissions
+│   ├── gd_eventbridge_policy.json   # EventBridge to Lambda permissions
+│   └── gd_lambda_policy.json        # Lambda execution role permissions
 ├── .gitignore
-├── requirements.txt                     # Python dependencies
-└── README.md                            # Project documentation
+├── requirements.txt                 # Python dependencies
+└── README.md                        # Project documentation
 ```
 
 ## **Setup Instructions**
@@ -58,7 +58,7 @@ pip install -r requirements.txt
 1. Open the AWS Management Console.
 2. Navigate to the SNS service.
 3. Click Create Topic and select Standard as the topic type.
-4. Name the topic (e.g., game_day_not_topic) and note the ARN.
+4. Name the topic (e.g., gd_topic) and note the ARN.
 5. Click Create Topic.
 
 
@@ -67,10 +67,9 @@ pip install -r requirements.txt
 2. Click Roles → Create Role.
 3. Select AWS Service and choose Lambda.
 4. Attach the following policies:
-  - SNS Publish Policy (sns_publish_policy.json)
-  - EventBridge Invoke Policy (eventbridge_invoke_policy.json)
-  - Lambda Execution Policy (lambda_execution_policy.json)SNS Publish Policy, EventBridge Invoke Policy, Lambda Execution Policy
-5. Name the role (e.g., game_day_not_role) and create it.
+  - SNS Publish Policy (gb_sns_policy.json)
+  - Lambda Execution Policy (gd_lambda_policy.json)
+5. Name the role (e.g., gd_role) and create it.
 6. Copy and Save the ARN of the role.
 
 
@@ -78,11 +77,11 @@ pip install -r requirements.txt
 1. Open the AWS Management Console and navigate to the Lambda service.
 2. Click Create Function.
 3. Select Author from Scratch.
-4. Enter a function name (e.g., game_day_notifier).
+4. Enter a function name (e.g., gd_notifications).
 5. Choose Python 3.x as the runtime.
-6. Assign the IAM role created earlier (game_day_not_role) to the function.
+6. Assign the IAM role created earlier (gd_role) to the function.
 7. Under the Function Code section:
-- Copy the content of the src/game_day_notifier.py file from the repository.
+- Copy the content of the src/gd_notifications.py file from the repository.
 - Paste it into the inline code editor.
 8. Under the Environment Variables section, add the following:
 - NBA_API_KEY: your NBA API key.
@@ -95,7 +94,7 @@ pip install -r requirements.txt
 2. Go to Rules → Create Rule.
 3. Select Event Source: Schedule.
 4. Set the cron schedule for when you want updates (e.g., hourly).
-5. Under Targets, select the Lambda function (game_day_notifier) and save the rule.
+5. Under Targets, select the Lambda function (gd_notifications) and save the rule.
 
 
 ### **Test the System**
