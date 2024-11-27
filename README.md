@@ -40,12 +40,14 @@ game-day-notifications/
 ├── requirements.txt            # Python dependencies
 └── README.md                   # Project documentation
 
-Setup Instructions
 
-Setup Instructions
-1. Clone the Repository bash
+## **Setup Instructions**
+
+### **Clone the Repository**
+```bash
 git clone https://github.com/YourGitHubUsername/nba-game-alerts.git
 cd nba-game-alerts
+```
 
 2. Install Dependencies
 pip install -r requirements.txt
