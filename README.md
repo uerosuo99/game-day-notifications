@@ -49,54 +49,45 @@ git clone https://github.com/YourGitHubUsername/nba-game-alerts.git
 cd nba-game-alerts
 ```
 
-2. Install Dependencies
+### **Install Dependencies**
+```bash
 pip install -r requirements.txt
+```
 
-3. Configure Environment Variables
-Create a .env file in the project root with the following variables:
-
-NBA_API_KEY=your_nba_api_key
-SNS_TOPIC_ARN=your_sns_topic_arn
-
-4. Create AWS Resources
-
-Step 4.1: Create an SNS Topic
+### **Create an SNS Topic**
 Go to the SNS service in the AWS Management Console.
 Create a new topic (Standard type) and note the ARN.
 
-Step 4.2: Create an IAM Role for Lambda
+Create an IAM Role for Lambda
 Attach the the Lambda execution role:
 
 SNS Publish Policy (sns_publish_policy.json)
 EventBridge Invoke Policy (eventbridge_invoke_policy.json)
 Lambda Execution Policy (lambda_execution_policy.json)
 
-5. Deploy the Lambda Function
+### **Deploy the Lambda Function**
 Zip the Lambda code:
-
+```bash
 zip -r function.zip src/
-
-Deploy the Lambda:
-
-6. Set Up Automation with CloudWatch
-Navigate to CloudWatch → Rules → Create Rule.
+```
+### **Set Up Automation with Eventbridge**
+Navigate to EventBridge → Rules → Create Rule.
 Choose Event Source: Schedule.
 Set the cron schedule for when you want updates (e.g., hourly).
 Add the Lambda function as the target and save the rule.
 
-7. Test the System
+### **Test the System**
 Use test events in the Lambda console to simulate execution.
-Check the SNS subscriptions to verify SMS notifications.
+Check the SNS subscriptions to verify SMS/Email notifications.
 Debug any errors using CloudWatch Logs.
 
 What I Learned
 Designing a notification system with AWS SNS and Lambda.
 Securing AWS services with least privilege IAM policies.
-Automating workflows using CloudWatch and EventBridge.
+Automating workflows using EventBridge.
 Integrating external APIs into cloud-based workflows.
 
 Future Enhancements
 Add NFL score alerts for extended functionality.
 Store user preferences (teams, game types) in DynamoDB for personalized alerts.
-Implement a web UI for subscription management.
-Use AWS Step Functions for orchestrating complex workflows.
+Implement a web UI
