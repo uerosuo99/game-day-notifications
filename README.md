@@ -75,10 +75,19 @@ pip install -r requirements.txt
 
 
 ### **Deploy the Lambda Function**
-Zip the Lambda code:
-```bash
-zip -r function.zip src/
-```
+1. Open the AWS Management Console and navigate to the Lambda service.
+2. Click Create Function.
+3. Select Author from Scratch.
+4. Enter a function name (e.g., NBA_Score_Notifier).
+5. Choose Python 3.x as the runtime.
+6. Assign the IAM role created earlier (NBA_Lambda_Role) to the function.
+7. Under the Function Code section:
+- Copy the content of the src/lambda_function.py file from the repository.
+- Paste it into the inline code editor.
+8. Under the Environment Variables section, add the following:
+- NBA_API_KEY: your NBA API key.
+- SNS_TOPIC_ARN: the ARN of the SNS topic created earlier.
+9. Click Create Function.
 
 
 ### **Set Up Automation with Eventbridge**
