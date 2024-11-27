@@ -30,15 +30,14 @@ This project is an alert system that sends real-time NBA game day score notifica
 ```bash
 game-day-notifications/
 ├── src/
-│   ├── lambda_function.py      # Main Lambda function code
+│   ├── lambda_function.py               # Main Lambda function code
 ├── policies/
-│   ├── sns_publish_policy.json # SNS publishing permissions
-│   ├── eventbridge_invoke_policy.json # EventBridge to Lambda permissions
-│   └── lambda_execution_policy.json # Lambda execution role permissions
-├── .env                        # Environment variables for sensitive keys
+│   ├── sns_publish_policy.json          # SNS publishing permissions
+│   ├── eventbridge_invoke_policy.json   # EventBridge to Lambda permissions
+│   └── lambda_execution_policy.json     # Lambda execution role permissions
 ├── .gitignore
-├── requirements.txt            # Python dependencies
-└── README.md                   # Project documentation
+├── requirements.txt                     # Python dependencies
+└── README.md                            # Project documentation
 ```
 
 ## **Setup Instructions**
