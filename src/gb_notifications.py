@@ -23,7 +23,20 @@ def lambda_handler(event, context):
         response_body = response.read().decode('utf-8')
         games = json.loads(response_body)
 
-        # Format message
+        # Check if there are no games
+        if not games:
+            no_games_message = "No relevant game updates now."
+            sns_client.publish(
+                TopicArn=os.environ['SNS_TOPIC_ARN'],
+                Message=no_games_message,
+                Subject="NBA Game Day Update"
+            )
+            return {
+                "statusCode": 200,
+                "body": no_games_message
+            }
+
+        # Format message for games
         messages = []
         for game in games:
             # Extract key game details
@@ -69,25 +82,19 @@ def lambda_handler(event, context):
                 )
                 messages.append(message)
 
-        # Only send notifications if there are games to report
-        if messages:
-            final_message = "\n---\n".join(messages)
+        # Combine all messages
+        final_message = "\n---\n".join(messages)
 
-            # Publish to SNS Topic
-            sns_client.publish(
-                TopicArn=os.environ['SNS_TOPIC_ARN'],
-                Message=final_message,
-                Subject="NBA Game Day Update!"
-            )
-            return {
-                "statusCode": 200,
-                "body": "Notifications sent successfully!"
-            }
-        else:
-            return {
-                "statusCode": 200,
-                "body": "No relevant game updates to send."
-            }
+        # Publish to SNS Topic
+        sns_client.publish(
+            TopicArn=os.environ['SNS_TOPIC_ARN'],
+            Message=final_message,
+            Subject="NBA Game Day Update"
+        )
+        return {
+            "statusCode": 200,
+            "body": "Notifications sent successfully!"
+        }
 
     except HTTPError as e:
         # Handle HTTP errors
