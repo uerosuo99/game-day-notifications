@@ -16,7 +16,7 @@ This project is an alert system that sends real-time NBA game day score notifica
 ## **Technical Architecture**
 - **Cloud Provider**: AWS
 - **Core Services**: SNS, Lambda, EventBridge
-- **External API**: NBA Game API (e.g., SportsData.io, BallDontLie, or RapidAPI)
+- **External API**: NBA Game API (SportsData.io)
 - **Programming Language**: Python 3.x
 - **IAM Security**:
   - Least privilege policies for Lambda, SNS, and EventBridge.
