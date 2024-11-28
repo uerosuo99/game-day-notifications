@@ -52,11 +52,35 @@ cd nba-game-alerts
 5. Click Create Topic.
 
 
+### **Create the SNS Publish Policy (gd_sns_policy)**
+1. Open the IAM service in the AWS Management Console.
+2. Navigate to Policies → Create Policy.
+3. Click JSON and paste the JSON policy from gd_sns_policy.json file
+4. Replace REGION and ACCOUNT_ID with your AWS region and account ID.
+5. Click Next: Tags (you can skip adding tags).
+6. Click Next: Review.
+7. Enter a name for the policy (e.g., gd_sns_policy).
+8. Review and click Create Policy.
+
 ### **Create an IAM Role for Lambda**
 1. Open the IAM service in the AWS Management Console.
 2. Click Roles → Create Role.
 3. Select AWS Service and choose Lambda.
 4. Attach the following policies:
+- SNS Publish Policy (gd_sns_policy) (created in the previous step).
+- Lambda Basic Execution Role (AWSLambdaBasicExecutionRole) (an AWS managed policy).
+5. Click Next: Tags (you can skip adding tags).
+6. Click Next: Review.
+7. Enter a name for the role (e.g., gd_role).
+8. Review and click Create Role.
+9. Copy and save the ARN of the role for use in the Lambda function.
+
+### **Create an IAM Role for Lambda**
+1. Open the IAM service in the AWS Management Console.
+2. 
+3. Click Roles → Create Role.
+4. Select AWS Service and choose Lambda.
+5. Attach the following policies:
   - SNS Publish Policy (gd_sns_policy.json)
   - Lambda Basic Execution Policy (AWSLambdaBasicExecutionRole)
 5. Name the role (e.g., gd_role) and create it.
