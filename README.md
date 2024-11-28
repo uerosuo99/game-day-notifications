@@ -108,7 +108,7 @@ cd nba-game-alerts
 
 
 ### **Set Up Automation with Eventbridge**
-1. Navigate to the CloudWatch service in the AWS Management Console.
+1. Navigate to the Eventbridge service in the AWS Management Console.
 2. Go to Rules → Create Rule.
 3. Select Event Source: Schedule.
 4. Set the cron schedule for when you want updates (e.g., hourly).
