@@ -51,6 +51,21 @@ cd nba-game-alerts
 4. Name the topic (e.g., gd_topic) and note the ARN.
 5. Click Create Topic.
 
+### **Add Subscriptions to the SNS Topic**
+1. After creating the topic, click on the topic name from the list.
+2. Navigate to the Subscriptions tab and click Create subscription.
+3. Select a Protocol:
+- For SMS (phone number):
+  - Choose SMS.
+  - Enter a valid phone number in international format (e.g., +1234567890).
+- For Email:
+  - Choose Email.
+  - Enter a valid email address.
+4. Click Create Subscription.
+5 If you added an Email subscription:
+- Check the inbox of the provided email address.
+- Confirm the subscription by clicking the confirmation link in the email.
+6. For SMS, the subscription will be immediately active after creation.
 
 ### **Create the SNS Publish Policy (gd_sns_policy)**
 1. Open the IAM service in the AWS Management Console.
