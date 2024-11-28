@@ -62,7 +62,7 @@ cd nba-game-alerts
   - Choose Email.
   - Enter a valid email address.
 4. Click Create Subscription.
-5 If you added an Email subscription:
+5. If you added an Email subscription:
 - Check the inbox of the provided email address.
 - Confirm the subscription by clicking the confirmation link in the email.
 6. For SMS, the subscription will be immediately active after creation.
