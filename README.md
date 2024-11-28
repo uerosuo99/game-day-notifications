@@ -18,9 +18,6 @@ This project is an alert system that sends real-time NBA game day score notifica
 - **Core Services**: SNS, Lambda, EventBridge
 - **External API**: NBA Game API (e.g., SportsData.io, BallDontLie, or RapidAPI)
 - **Programming Language**: Python 3.x
-- **Dependencies**:
-  - `boto3`: AWS SDK for Python
-  - `requests`: HTTP requests for NBA API
 - **IAM Security**:
   - Least privilege policies for Lambda, SNS, and EventBridge.
 
@@ -36,7 +33,6 @@ game-day-notifications/
 │   ├── gd_eventbridge_policy.json   # EventBridge to Lambda permissions
 │   └── gd_lambda_policy.json        # Lambda execution role permissions
 ├── .gitignore
-├── requirements.txt                 # Python dependencies
 └── README.md                        # Project documentation
 ```
 
@@ -47,12 +43,6 @@ game-day-notifications/
 git clone https://github.com/YourGitHubUsername/nba-game-alerts.git
 cd nba-game-alerts
 ```
-
-### **Install Dependencies**
-```bash
-pip install -r requirements.txt
-```
-
 
 ### **Create an SNS Topic**
 1. Open the AWS Management Console.
