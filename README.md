@@ -57,8 +57,8 @@ cd nba-game-alerts
 2. Click Roles → Create Role.
 3. Select AWS Service and choose Lambda.
 4. Attach the following policies:
-  - SNS Publish Policy (gb_sns_policy.json)
-  - Lambda Execution Policy (gd_lambda_policy.json)
+  - SNS Publish Policy (gd_sns_policy.json)
+  - Lambda Basic Execution Policy (AWSLambdaBasicExecutionRole)
 5. Name the role (e.g., gd_role) and create it.
 6. Copy and Save the ARN of the role.
 
