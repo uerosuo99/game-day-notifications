@@ -1,6 +1,8 @@
 import boto3
-import requests
 import os
+import json
+from urllib.request import Request, urlopen
+from urllib.error import URLError, HTTPError
 from datetime import datetime
 
 # Initialize SNS client
@@ -12,18 +14,14 @@ def lambda_handler(event, context):
     
     # NBA API Config
     api_key = os.environ['NBA_API_KEY']
-    api_url = f"https://api.sportsdata.io/v3/nba/scores/json/GamesByDateFinal/{today_date}"
-    query_params = {"key": api_key}
+    api_url = f"https://api.sportsdata.io/v3/nba/scores/json/GamesByDateFinal/{today_date}?key={api_key}"
 
     try:
-        # Fetch game data
-        response = requests.get(api_url, params=query_params)
-        
-        # Check for unsuccessful response
-        if response.status_code != 200:
-            raise Exception(f"API call failed with status code {response.status_code}: {response.text}")
-        
-        games = response.json()
+        # Make an HTTP GET request using urllib
+        request = Request(api_url)
+        response = urlopen(request)
+        response_body = response.read().decode('utf-8')
+        games = json.loads(response_body)
 
         # Format message
         messages = []
@@ -90,9 +88,25 @@ def lambda_handler(event, context):
                 "statusCode": 200,
                 "body": "No relevant game updates to send."
             }
-    
+
+    except HTTPError as e:
+        # Handle HTTP errors
+        print(f"HTTPError: {e.code} - {e.reason}")
+        return {
+            "statusCode": e.code,
+            "body": f"HTTPError: {e.reason}"
+        }
+
+    except URLError as e:
+        # Handle URL errors
+        print(f"URLError: {e.reason}")
+        return {
+            "statusCode": 500,
+            "body": f"URLError: {e.reason}"
+        }
+
     except Exception as e:
-        # Log the exception for debugging
+        # Handle any other exceptions
         print(f"Error: {str(e)}")
         return {
             "statusCode": 500,
