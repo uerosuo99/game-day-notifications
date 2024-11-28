@@ -91,17 +91,6 @@ cd nba-game-alerts
 8. Review and click Create Role.
 9. Copy and save the ARN of the role for use in the Lambda function.
 
-### **Create an IAM Role for Lambda**
-1. Open the IAM service in the AWS Management Console.
-2. Click Roles → Create Role.
-3. Select AWS Service and choose Lambda.
-4. Attach the following policies:
-  - SNS Publish Policy (gd_sns_policy.json)
-  - Lambda Basic Execution Policy (AWSLambdaBasicExecutionRole)
-5. Name the role (e.g., gd_role) and create it.
-6. Copy and Save the ARN of the role.
-
-
 ### **Deploy the Lambda Function**
 1. Open the AWS Management Console and navigate to the Lambda service.
 2. Click Create Function.
