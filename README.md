@@ -68,7 +68,7 @@ cd nba-game-alerts
 - Confirm the subscription by clicking the confirmation link in the email.
 6. For SMS, the subscription will be immediately active after creation.
 
-### **Create the SNS Publish Policy (gd_sns_policy)**
+### **Create the SNS Publish Policy**
 1. Open the IAM service in the AWS Management Console.
 2. Navigate to Policies → Create Policy.
 3. Click JSON and paste the JSON policy from gd_sns_policy.json file
