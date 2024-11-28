@@ -52,7 +52,7 @@ cd nba-game-alerts
 5. Click Create Topic.
 
 
-### **reate an IAM Role for Lambda**
+### **Create an IAM Role for Lambda**
 1. Open the IAM service in the AWS Management Console.
 2. Click Roles → Create Role.
 3. Select AWS Service and choose Lambda.
