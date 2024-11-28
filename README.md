@@ -55,12 +55,13 @@ cd nba-game-alerts
 1. After creating the topic, click on the topic name from the list.
 2. Navigate to the Subscriptions tab and click Create subscription.
 3. Select a Protocol:
-- For SMS (phone number):
-  - Choose SMS.
-  - Enter a valid phone number in international format (e.g., +1234567890).
 - For Email:
   - Choose Email.
   - Enter a valid email address.
+- For SMS (phone number):
+  - Choose SMS.
+  - Enter a valid phone number in international format (e.g., +1234567890).
+
 4. Click Create Subscription.
 5. If you added an Email subscription:
 - Check the inbox of the provided email address.
