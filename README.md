@@ -11,6 +11,10 @@ This project is an alert system that sends real-time NBA game day score notifica
 - Scheduled automation for regular updates using Amazon EventBridge.
 - Designed with security in mind, following the principle of least privilege for IAM roles.
 
+## **Prerequisites**
+- Free account with subscription and API Key at [sportsdata.io](https://sportsdata.io/)
+- Personal AWS account with basic understanding of AWS and Python
+
 ---
 
 ## **Technical Architecture**
