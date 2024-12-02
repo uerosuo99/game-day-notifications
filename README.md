@@ -44,8 +44,8 @@ game-day-notifications/
 
 ### **Clone the Repository**
 ```bash
-git clone https://github.com/YourGitHubUsername/nba-game-alerts.git
-cd nba-game-alerts
+git clone https://github.com/ifeanyiro9/game-day-notifications.git
+cd game-day-notifications
 ```
 
 ### **Create an SNS Topic**
