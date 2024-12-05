@@ -1,121 +1,80 @@
-import boto3
 import os
 import json
-from urllib.request import Request, urlopen
-from urllib.error import URLError, HTTPError
+import urllib.request
+import boto3
 from datetime import datetime
 
-# Initialize SNS client
-sns_client = boto3.client('sns')
+def format_game_data(game):
+    status = game.get("Status", "Unknown")
+    away_team = game.get("AwayTeam", "Unknown")
+    home_team = game.get("HomeTeam", "Unknown")
+    final_score = f"{game.get('AwayTeamScore', 'N/A')}-{game.get('HomeTeamScore', 'N/A')}"
+    start_time = game.get("DateTime", "Unknown")
+    channel = game.get("Channel", "Unknown")
+    
+    # Format quarters
+    quarters = game.get("Quarters", [])
+    quarter_scores = ', '.join([f"Q{q['Number']}: {q.get('AwayScore', 'N/A')}-{q.get('HomeScore', 'N/A')}" for q in quarters])
+    
+    # Create the game string
+    if status == "Final":
+        return (
+            f"Game Status: {status}\n"
+            f"{away_team} vs {home_team}\n"
+            f"Final Score: {final_score}\n"
+            f"Start Time: {start_time}\n"
+            f"Channel: {channel}\n"
+            f"Quarter Scores: {quarter_scores}\n"
+        )
+    elif status == "InProgress":
+        last_play = game.get("LastPlay", "N/A")
+        return (
+            f"Game Status: {status}\n"
+            f"{away_team} vs {home_team}\n"
+            f"Current Score: {final_score}\n"
+            f"Last Play: {last_play}\n"
+            f"Channel: {channel}\n"
+        )
+    else:
+        return (
+            f"Game Status: {status}\n"
+            f"{away_team} vs {home_team}\n"
+            f"Details are unavailable at the moment.\n"
+        )
 
 def lambda_handler(event, context):
-    # Get today's date in the required format (yyyy-MM-dd)
-    today_date = datetime.now().strftime('%Y-%m-%d')
+    # Get environment variables
+    api_key = os.getenv("NBA_API_KEY")
+    sns_topic_arn = os.getenv("SNS_TOPIC_ARN")
+    sns_client = boto3.client("sns")
     
-    # NBA API Config
-    api_key = os.environ['NBA_API_KEY']
+    # Get today's date in the format YYYY-MM-DD
+    today_date = datetime.now().strftime("%Y-%m-%d")
+    print(f"Fetching games for date: {today_date}")
+    
+    # Fetch data from the API
     api_url = f"https://api.sportsdata.io/v3/nba/scores/json/GamesByDateFinal/{today_date}?key={api_key}"
-
     try:
-        # Make an HTTP GET request using urllib
-        request = Request(api_url)
-        response = urlopen(request)
-        response_body = response.read().decode('utf-8')
-        games = json.loads(response_body)
-
-        # Check if there are no games
-        if not games:
-            no_games_message = "No relevant game updates now."
-            sns_client.publish(
-                TopicArn=os.environ['SNS_TOPIC_ARN'],
-                Message=no_games_message,
-                Subject="NBA Game Day Update"
-            )
-            return {
-                "statusCode": 200,
-                "body": no_games_message
-            }
-
-        # Format message for games
-        messages = []
-        for game in games:
-            # Extract key game details
-            status = game.get('Status')
-            home_team = game.get('HomeTeam')
-            away_team = game.get('AwayTeam')
-            home_score = game.get('HomeTeamScore')
-            away_score = game.get('AwayTeamScore')
-            start_time = game.get('DateTime')
-            channel = game.get('Channel')
-            last_play = game.get('LastPlay', "No data available")
-            quarters = game.get('Quarters', [])
-
-            # Handle scores: If null, replace with a placeholder
-            home_score_text = home_score if home_score is not None else "Not available yet"
-            away_score_text = away_score if away_score is not None else "Not available yet"
-
-            if status == "Final":
-                # For Final games, include full details and quarter scores
-                quarter_scores = []
-                for quarter in quarters:
-                    quarter_scores.append(f"Q{quarter['Number']}: {quarter['AwayScore']}-{quarter['HomeScore']}")
-                quarter_scores_text = ", ".join(quarter_scores) if quarter_scores else "No quarter scores available"
-
-                message = (
-                    f"Game Status: {status}\n"
-                    f"{away_team} vs {home_team}\n"
-                    f"Final Score: {away_score}-{home_score}\n"
-                    f"Start Time: {start_time}\n"
-                    f"Channel: {channel}\n"
-                    f"Quarter Scores: {quarter_scores_text}\n"
-                )
-                messages.append(message)
-
-            elif status == "InProgress":
-                # For InProgress games, include live updates
-                message = (
-                    f"Game Status: {status}\n"
-                    f"{away_team} vs {home_team}\n"
-                    f"Current Score: {away_score_text}-{home_score_text}\n"
-                    f"Last Play: {last_play}\n"
-                    f"Channel: {channel}\n"
-                )
-                messages.append(message)
-
-        # Combine all messages
-        final_message = "\n---\n".join(messages)
-
-        # Publish to SNS Topic
-        sns_client.publish(
-            TopicArn=os.environ['SNS_TOPIC_ARN'],
-            Message=final_message,
-            Subject="NBA Game Day Update"
-        )
-        return {
-            "statusCode": 200,
-            "body": "Notifications sent successfully!"
-        }
-
-    except HTTPError as e:
-        # Handle HTTP errors
-        print(f"HTTPError: {e.code} - {e.reason}")
-        return {
-            "statusCode": e.code,
-            "body": f"HTTPError: {e.reason}"
-        }
-
-    except URLError as e:
-        # Handle URL errors
-        print(f"URLError: {e.reason}")
-        return {
-            "statusCode": 500,
-            "body": f"URLError: {e.reason}"
-        }
-
+        with urllib.request.urlopen(api_url) as response:
+            data = json.loads(response.read().decode())
     except Exception as e:
-        # Handle any other exceptions
-        print(f"Error: {str(e)}")
-        return {
-            "statusCode": 500,
-            "body": f"Error: {str(e)}"
-        }
+        print(f"Error fetching data from API: {e}")
+        return {"statusCode": 500, "body": "Error fetching data"}
+    
+    # Format the results
+    messages = [format_game_data(game) for game in data]
+    final_message = "\n---\n".join(messages)
+    
+    # Publish to SNS
+    try:
+        sns_client.publish(
+            TopicArn=sns_topic_arn,
+            Message=final_message,
+            Subject="NBA Game Scores"
+        )
+        print("Message published to SNS successfully.")
+    except Exception as e:
+        print(f"Error publishing to SNS: {e}")
+        return {"statusCode": 500, "body": "Error publishing to SNS"}
+    
+    return {"statusCode": 200, "body": "Data processed and sent to SNS"}
